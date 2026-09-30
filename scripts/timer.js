@@ -34,14 +34,7 @@ export class Timer {
         const secs = String(this.secondsPassed % 60).padStart(2, '0');
         this.timerElement.textContent = `${mins}:${secs}`;
     }
-
-    updateCells() {
-        for (let i = 0; i < TD.length; i++) {
-            console.log(TD[i]);
-            TD[i].classList.add("empty")
-        }
-    }
-
+    
     start() {
         this.resetTimer();
         this.startTimer();
