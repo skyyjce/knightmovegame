@@ -29,9 +29,8 @@ function switchButtons() {
   endButton.className = 'give-up';
   endButton.textContent = 'End';
 
-  // Додаємо дію на кнопку здатися / завершити
   endButton.addEventListener('click', () => {
-    timer.stop();
+    timer.stopTimer();
   });
 
   buttonsMenu.appendChild(endButton);
