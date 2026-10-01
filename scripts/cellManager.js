@@ -66,7 +66,10 @@ export class CellManager {
         this.score += 1;
         this.scoreElement.textContent = this.score;
         this.highLightNextPossibleMoves(cell);
-        console.log(this.score);
+    }
+
+    resetScore() {
+        this.scoreElement.textContent = 0;
     }
 
     enableStartCell() {
