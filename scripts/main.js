@@ -7,21 +7,25 @@ const COLS = 10;
 
 const scoreAmount = document.querySelector('.score_amount');
 const buttonsMenu = document.querySelector('.menu');
-const startButton = document.querySelector('.start');
+let startButton = document.querySelector('.start');
 
-// 1. Створюємо екземпляри
 const field = new Field(ROWS, COLS);
 const timer = new Timer();
 
-// 2. Будуємо розмітку поля
 field.render();
 
-// 3. Знаходимо стартову клітинку та передаємо таблицю в CellManager
-const startCell = document.querySelector('.x1_y1');
+let startCell = document.querySelector('.x1_y1');
 const cellManager = new CellManager(startCell, scoreAmount);
 
-// Функція заміни кнопки "Start" на "End"
-function switchButtons() {
+function handleGameStart() {
+  timer.start();
+  cellManager.enableStartCell();
+  switchButtonToEnd();
+}
+
+startButton.addEventListener('click', handleGameStart);
+
+function switchButtonToEnd() {
   startButton.remove();
 
   const endButton = document.createElement('button');
@@ -31,14 +35,49 @@ function switchButtons() {
 
   endButton.addEventListener('click', () => {
     timer.stopTimer();
+    field.removeField();
+    switchButtonToReload();
   });
 
   buttonsMenu.appendChild(endButton);
 }
 
-// Запуск гри за кліком
-startButton.addEventListener('click', () => {
-  timer.start();
-  cellManager.enableStartCell();
-  switchButtons();
-});
+function switchButtonToReload() {
+  document.querySelector('.give-up').remove();
+
+  const reloadButton = document.createElement('button');
+  reloadButton.type = 'button';
+  reloadButton.className = 'leaders';
+  reloadButton.textContent = 'Reload';
+
+  reloadButton.addEventListener('click', () => {
+    timer.resetTimer();
+    cellManager.resetScore();
+
+    const table = document.querySelector('table');
+    const newTbody = document.createElement('tbody');
+    table.appendChild(newTbody);
+
+    field.tbody = newTbody; 
+    field.render();
+
+    cellManager.startCell = document.querySelector('.x1_y1');
+
+    switchButtonToStart();
+  });
+
+  buttonsMenu.appendChild(reloadButton);
+}
+
+function switchButtonToStart() {
+  document.querySelector('.leaders').remove();
+
+  startButton = document.createElement('button');
+  startButton.type = 'button';
+  startButton.className = 'start';
+  startButton.textContent = 'Start';
+
+  startButton.addEventListener('click', handleGameStart);
+
+  buttonsMenu.appendChild(startButton);
+}
