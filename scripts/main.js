@@ -15,8 +15,13 @@ const timer = new Timer();
 
 field.render();
 
+function handleGameOver() {
+  timer.stopTimer();
+  showReloadButton();
+}
+
 const startCell = document.querySelector('.x1_y1');
-const cellManager = new CellManager(startCell, scoreAmount);
+const cellManager = new CellManager(startCell, scoreAmount, handleGameOver);
 
 function showStartButton() {
   startButton.classList.remove('hide-button');
