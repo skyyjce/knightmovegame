@@ -6,78 +6,48 @@ const ROWS = 10;
 const COLS = 10;
 
 const scoreAmount = document.querySelector('.score_amount');
-const buttonsMenu = document.querySelector('.menu');
-let startButton = document.querySelector('.start');
+const startButton = document.querySelector('.start');
+const endButton = document.querySelector('.give-up');
+const reloadButton = document.querySelector('.leaders');
 
 const field = new Field(ROWS, COLS);
 const timer = new Timer();
 
 field.render();
 
-let startCell = document.querySelector('.x1_y1');
+const startCell = document.querySelector('.x1_y1');
 const cellManager = new CellManager(startCell, scoreAmount);
 
-function handleGameStart() {
+function showStartButton() {
+  startButton.classList.remove('hide-button');
+  endButton.classList.add('hide-button');
+  reloadButton.classList.add('hide-button');
+}
+
+function showEndButton() {
+  startButton.classList.add('hide-button');
+  endButton.classList.remove('hide-button');
+  reloadButton.classList.add('hide-button');
+}
+
+function showReloadButton() {
+  startButton.classList.add('hide-button');
+  endButton.classList.add('hide-button');
+  reloadButton.classList.remove('hide-button');
+}
+
+startButton.addEventListener('click', () => {
   timer.start();
   cellManager.enableStartCell();
-  switchButtonToEnd();
-}
+  showEndButton();
+});
 
-startButton.addEventListener('click', handleGameStart);
+endButton.addEventListener('click', () => {
+  timer.stopTimer();
+  field.removeField();
+  showReloadButton();
+});
 
-function switchButtonToEnd() {
-  startButton.remove();
-
-  const endButton = document.createElement('button');
-  endButton.type = 'button';
-  endButton.className = 'give-up';
-  endButton.textContent = 'End';
-
-  endButton.addEventListener('click', () => {
-    timer.stopTimer();
-    field.removeField();
-    switchButtonToReload();
-  });
-
-  buttonsMenu.appendChild(endButton);
-}
-
-function switchButtonToReload() {
-  document.querySelector('.give-up').remove();
-
-  const reloadButton = document.createElement('button');
-  reloadButton.type = 'button';
-  reloadButton.className = 'leaders';
-  reloadButton.textContent = 'Reload';
-
-  reloadButton.addEventListener('click', () => {
-    timer.resetTimer();
-    cellManager.resetScore();
-
-    const table = document.querySelector('table');
-    const newTbody = document.createElement('tbody');
-    table.appendChild(newTbody);
-
-    field.tbody = newTbody; 
-    field.render();
-
-    cellManager.startCell = document.querySelector('.x1_y1');
-
-    switchButtonToStart();
-  });
-
-  buttonsMenu.appendChild(reloadButton);
-}
-
-function switchButtonToStart() {
-  document.querySelector('.leaders').remove();
-
-  startButton = document.createElement('button');
-  startButton.type = 'button';
-  startButton.className = 'start';
-  startButton.textContent = 'Start';
-
-  startButton.addEventListener('click', handleGameStart);
-
-  buttonsMenu.appendChild(startButton);
-}
+reloadButton.addEventListener('click', () => {
+  window.location.reload();
+});
