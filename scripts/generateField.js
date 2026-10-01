@@ -2,7 +2,7 @@ export class Field {
     constructor(height, width) {
         this.height = height;
         this.width = width;
-        this.tbody = document.querySelector('#field table tbody');
+        this.table = document.querySelector('#field table');
     }
 
     get size() {
@@ -10,7 +10,8 @@ export class Field {
     }
 
     render() {
-        if (!this.tbody) return;
+        let tbody = document.createElement('tbody');
+
 
         for (let i = 0; i < this.width; i++) {
             let tr = document.createElement('tr');
@@ -20,13 +21,14 @@ export class Field {
                 td.textContent = (i * this.height) + j + 1;
                 td.className = `x${i + 1}_y${j + 1}`;
                 tr.appendChild(td);
-                this.tbody.appendChild(tr);
+                tbody.appendChild(tr);
             }
-
         }
+        this.table.append(tbody);
     }
 
     removeField() {
-        this.tbody.remove();
+        const tbody = this.table.querySelector('tbody');
+        if (tbody) tbody.remove();
     }
 }
