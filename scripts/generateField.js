@@ -24,12 +24,9 @@ export class Field {
             }
 
         }
+    }
 
-        // const td = document.createElement('td');
-        // td.textContent = 'test';
-        // td.className = 'cell-test';
-
-        // tr.appendChild(td);
-        // this.tbody.appendChild(tr);
+    removeField() {
+        this.tbody.remove();
     }
 }
