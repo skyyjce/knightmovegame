@@ -3,6 +3,7 @@ export class Timer {
         this.secondsPassed = 0;
         this.timemerId = null;
         this.timerElement = document.querySelector(".time_amount");
+        this.timerText = document.querySelector(".time_text");
     }
 
     startTimer() {
@@ -16,6 +17,7 @@ export class Timer {
 
     stopTimer() {
         if (this.timemerId !== null) {
+            this.timerText.textContent = 'Your Time';
             clearInterval(this.timemerId);
             this.timemerId = null;
         }
@@ -34,7 +36,7 @@ export class Timer {
         const secs = String(this.secondsPassed % 60).padStart(2, '0');
         this.timerElement.textContent = `${mins}:${secs}`;
     }
-    
+
     start() {
         this.resetTimer();
         this.startTimer();
