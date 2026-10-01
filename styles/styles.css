@@ -204,3 +204,7 @@ button {
 .give-up:active {
     transform: translateY(1px);
 }
+
+.hide-button {
+    display: none;
+}
